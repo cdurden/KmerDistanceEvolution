@@ -1,0 +1,9 @@
+sqlalchemy
+venusian
+pyramid_chameleon
+pyramid
+pyramid_tm
+waitress
+zope.sqlalchemy
+matplotlib
+Coalescent

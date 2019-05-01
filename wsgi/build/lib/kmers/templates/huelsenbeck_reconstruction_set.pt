@@ -1,0 +1,60 @@
+<html>
+  <body>
+      <metal:huelsenbeck_reconstruction_set define-macro="huelsenbeck_reconstruction_set">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>INDELible (indel) model:</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.indelible_model}</td>
+                            </tr>
+                            <tr>
+                                <td>theta:</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.theta}</td>
+                            </tr>
+                            <tr>
+                                <td>Number of genes:</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.genes}</td>
+                            </tr>
+                            <tr>
+                                <td>Sequence length (m):</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.m}</td>
+                            </tr>
+                            <tr>
+                                <td>Number of taxa (n):</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.n}</td>
+                            </tr>
+                            <tr>
+                                <td>Tree reconstruction method:</td>
+                                <td>${huelsenbeck_reconstruction_set.method}</td>
+                            </tr>
+                            <tr>
+                                <td>KVD method:</td>
+                                <td>${huelsenbeck_reconstruction_set.distance_formula}</td>
+                            </tr>
+                            <tr>
+                                <td>Alignment method:</td>
+                                <td>${huelsenbeck_reconstruction_set.alignment_method}</td>
+                            </tr>
+                            <tr>
+                                <td>k values:</td>
+                                <td>${python: huelsenbeck_reconstruction_set.k}</td>
+                            </tr>
+                            <tr>
+                                <td>Average reconstruction time:</td>
+                                <td>${python: 1 or np.mean([huel_reconstruction.reconstruction.dt for huel_reconstruction in huelsenbeck_reconstruction_set.huelsenbeck_reconstructions])} s
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <object data="${structure: request.route_url('huelsenbeck_svg', reconstruction_set_id=huelsenbeck_reconstruction_set.id)}" type="image/svg+xml">
+                        </object>
+                        <!--                        <img src="${structure: request.route_url('huelsenbeck_svg', reconstruction_set_id=huelsenbeck_reconstruction_set.id)}"/>-->
+                    </td>
+                </tr>
+            </table>
+      </metal:huelsenbeck_reconstruction_set>
+  </body>
+</html>

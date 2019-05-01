@@ -1,0 +1,36 @@
+<html>
+<body>
+    <h1>Results</h1>
+    <th tal:repeat="reconstruction_parameter reconstruction_parameters">
+    </th>
+    <table>
+        <tr>
+            <th>
+            </th>
+            <th tal:repeat="reconstruction_parameter_combo reconstruction_parameter_combos">
+                ${reconstruction_parameters}
+            </th>
+        </tr>
+        <tr>
+            <th>
+                ${sim_parameters}
+            </th>
+            <th tal:repeat="reconstruction_parameter_combo reconstruction_parameter_combos">
+                <!--<a tal:attributes="href request.route_url('huelsenbeck', _query=dict(zip(reconstruction_parameters,reconstruction_parameter_combo)))">${python: reconstruction_parameter_combo}</a>-->
+                <a tal:attributes="href request.route_url('huelsenbeck_reconstruction_sets', **dict(zip(reconstruction_parameters,reconstruction_parameter_combo)))">${python: reconstruction_parameter_combo}</a>
+            </th>
+        </tr>
+        <tr tal:repeat="sim_parameter_combo sim_parameter_combos">
+            <metal:block tal:define="row repeat.sim_parameter_combo.index">
+                <td>
+                    <!--<a tal:attributes="href request.route_url('huelsenbeck', _query=dict(zip(sim_parameters,sim_parameter_combo)))">${python: sim_parameter_combo}</a>-->
+                    <a tal:attributes="href request.route_url('huelsenbeck_simulation_sets', **dict(zip(sim_parameters,sim_parameter_combo)))">${python: sim_parameter_combo}</a>
+                </td>
+                <td tal:repeat="reconstruction_parameter_combo reconstruction_parameter_combos">
+                    <a tal:define="col repeat.reconstruction_parameter_combo.index" tal:repeat="reconstruction_set_id results[row,col]" href="${structure: request.route_url('huelsenbeck_reconstruction_set', reconstruction_set_id=reconstruction_set_id)}">+</a>
+                </td>
+            </metal:block>
+        </tr>
+    </table>
+</body>
+</html>

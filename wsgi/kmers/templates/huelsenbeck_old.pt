@@ -1,0 +1,66 @@
+<html>
+  <body>
+    <h1>Results</h1>
+
+    <h2>Huelsenbeck diagrams</h2>
+    <metal:block tal:define="nr_results 25">
+    <p>Found ${python: len(huelsenbeck_reconstruction_sets)} results. The first ${nr_results} results are displayed.</p> 
+        <metal:block tal:repeat="huelsenbeck_reconstruction_set huelsenbeck_reconstruction_sets">
+        <metal:main use-macro="load: huelsenbeck_reconstruction_set_macro.pt">
+                <!--
+        <p metal:fill-slot="content">${structure: huelsenbeck_reconstruction_set}<p/>
+            <table tal:define="row repeat.huelsenbeck_reconstruction_set.index" tal:condition="python: row < nr_results" metal:use-macro="reconstruction_set_macro">
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>INDELible (indel) model:</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.indelible_model}</td>
+                            </tr>
+                            <tr>
+                                <td>theta:</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.theta}</td>
+                            </tr>
+                            <tr>
+                                <td>Number of genes:</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.genes}</td>
+                            </tr>
+                            <tr>
+                                <td>Sequence length (m):</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.m}</td>
+                            </tr>
+                            <tr>
+                                <td>Number of taxa (n):</td>
+                                <td>${huelsenbeck_reconstruction_set.simulation_set.n}</td>
+                            </tr>
+                            <tr>
+                                <td>Tree reconstruction method:</td>
+                                <td>${huelsenbeck_reconstruction_set.method}</td>
+                            </tr>
+                            <tr>
+                                <td>KVD method:</td>
+                                <td>${huelsenbeck_reconstruction_set.distance_formula}</td>
+                            </tr>
+                            <tr>
+                                <td>Alignment method:</td>
+                                <td>${huelsenbeck_reconstruction_set.alignment_method}</td>
+                            </tr>
+                            <tr>
+                                <td>k values:</td>
+                                <td>${python: huelsenbeck_reconstruction_set.k}</td>
+                            </tr>
+                        </table>
+                        <a href="${structure: request.route_url('huelsenbeck_reconstruction_set', reconstruction_set_id=huelsenbeck_reconstruction_set.id)}">link</a>
+
+                    </td>
+                    <td>
+                        <object data="${structure: request.route_url('huelsenbeck_svg', reconstruction_set_id=huelsenbeck_reconstruction_set.id)}" type="image/svg+xml">
+                        </object>
+                    </td>
+                </tr>
+                -->
+            </table>
+        </metal:block>
+    </metal:block>
+  </body>
+</html>
