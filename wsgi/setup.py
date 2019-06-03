@@ -9,7 +9,7 @@ requires = [
     'waitress',
     'zope.sqlalchemy',
     'matplotlib',
-    'Coalescent'
+    'KmerDistanceEvolution'
 ]
 
 setup(name='kmers',

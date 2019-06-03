@@ -32,6 +32,8 @@ def FiveTaxonCoalescentJCExpectedKmerDistanceParameterizationMap(a,theta,k):
                                                   a[3]+a[4])
     return(np.array([CoalescentJCExpectedKmerDistance(t_i,theta,k) for t_i in t]))
 
+def CoalescentK80ExpectedKmerDistance(t,theta,kappa,k):
+    pass
 def CoalescentJCExpectedKmerDistance(t,theta,k):
     try:
         return((1-1.0/4**k*sum([binom(k,i)*(3**(i+1)*exp(-4.0/3*t*i))/(3+8*theta*i) for i in range(k+1)])))
