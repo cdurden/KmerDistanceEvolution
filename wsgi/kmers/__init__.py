@@ -61,7 +61,7 @@ def huelsenbeck_svg(request):
 #    kvd_method=request.matchdict['kvd_method']
 #    k=tuple(request.matchdict['k'].split("_"))
 
-    reconstruction_set = DBSession.query(HuelsenbeckReconstructionSet).get(reconstruction_set_id)
+    reconstruction_set = DBSession.query(HuelsenbeckTreeEstimateSet).get(reconstruction_set_id)
     from sqlalchemy.orm import joinedload
     from sqlalchemy.orm import defaultload
     a_max = reconstruction_set.simulation_set.a_max
@@ -77,7 +77,7 @@ def huelsenbeck_svg(request):
 #        print(row)
 #        for col in range(nr_cols):
 #            print(col)
-#            huelsenbeck_reconstructions = DBSession.query(HuelsenbeckReconstruction).filter(reconstruction_set==reconstruction_set).filter(row==row).filter(col==col).all()
+#            huelsenbeck_reconstructions = DBSession.query(HuelsenbeckTreeEstimate).filter(reconstruction_set==reconstruction_set).filter(row==row).filter(col==col).all()
 #            n[row,col] = sum([huelsenbeck_reconstruction.success for huelsenbeck_reconstruction in huelsenbeck_reconstructions])
 #            d[row,col] = len(huelsenbeck_reconstructions)
 #
@@ -154,7 +154,7 @@ def results(request):
     sim_parameters = ['n','indelible_model','genes','m','theta']
     reconstruction_parameters = ['k','distance_formula','alignment_method','method']
     simulation_sets = DBSession.query(HuelsenbeckSimulationSet).options(Load(HuelsenbeckSimulationSet).lazyload('*')).all()
-    reconstruction_sets = DBSession.query(HuelsenbeckReconstructionSet).options(Load(HuelsenbeckReconstructionSet).lazyload('*')).all()
+    reconstruction_sets = DBSession.query(HuelsenbeckTreeEstimateSet).options(Load(HuelsenbeckTreeEstimateSet).lazyload('*')).all()
     sim_parameters_dict = dict([(parameter,set([getattr(simulation_set,parameter) for simulation_set in simulation_sets])) for parameter in sim_parameters])
     reconstruction_parameters_dict = dict([(parameter,set([getattr(reconstruction_set,parameter) for reconstruction_set in reconstruction_sets])) for parameter in reconstruction_parameters])
     import itertools
@@ -166,13 +166,13 @@ def results(request):
     nonempty_cols = list()
     for row,sim_parameter_combo in enumerate(sim_parameter_combos):
         for col,reconstruction_parameter_combo in enumerate(reconstruction_parameter_combos):
-            q = DBSession.query(HuelsenbeckReconstructionSet).\
-                    join(HuelsenbeckReconstructionSet.simulation_set, aliased=True).\
-                    options(lazyload(HuelsenbeckReconstructionSet.huelsenbeck_reconstructions))
+            q = DBSession.query(HuelsenbeckTreeEstimateSet).\
+                    join(HuelsenbeckTreeEstimateSet.simulation_set, aliased=True).\
+                    options(lazyload(HuelsenbeckTreeEstimateSet.huelsenbeck_reconstructions))
             for param, value in zip(sim_parameters,sim_parameter_combo):
                     q = q.filter(getattr(HuelsenbeckSimulationSet, param)==value)
             for param, value in zip(reconstruction_parameters,reconstruction_parameter_combo):
-                    q = q.filter(getattr(HuelsenbeckReconstructionSet, param)==value)
+                    q = q.filter(getattr(HuelsenbeckTreeEstimateSet, param)==value)
             results[row,col]= tuple([reconstruction_set.id for reconstruction_set in q.all()])
             if len(results[row,col])>0:
                 nonempty_cols.append(col)
@@ -187,7 +187,7 @@ def huelsenbeck_reconstruction_set(request):
 
     reconstruction_set_id = request.matchdict['reconstruction_set_id']
 
-    reconstruction_set = DBSession.query(HuelsenbeckReconstructionSet).get(reconstruction_set_id)
+    reconstruction_set = DBSession.query(HuelsenbeckTreeEstimateSet).get(reconstruction_set_id)
     return({'huelsenbeck_reconstruction_set': reconstruction_set, 'np': np})
 
 def huelsenbeck(request):
@@ -217,9 +217,9 @@ def huelsenbeck(request):
         k = [",".join(sorted(k))]
     else:
         k = []
-    filter_group = [col.in_(vals) for col,vals in [(HuelsenbeckReconstructionSet.method, methods),
-                                                   (HuelsenbeckReconstructionSet.distance_formula, distance_formulas),
-                                                   (HuelsenbeckReconstructionSet.k, k),
+    filter_group = [col.in_(vals) for col,vals in [(HuelsenbeckTreeEstimateSet.method, methods),
+                                                   (HuelsenbeckTreeEstimateSet.distance_formula, distance_formulas),
+                                                   (HuelsenbeckTreeEstimateSet.k, k),
                                                    (HuelsenbeckSimulationSet.genes, genes),
                                                    (HuelsenbeckSimulationSet.indelible_model, indelible_models),
                                                    (HuelsenbeckSimulationSet.n, n),
@@ -227,9 +227,9 @@ def huelsenbeck(request):
                                                    (HuelsenbeckSimulationSet.m, m)] if len(vals)>0]
 
     reconstruction_set_macro = get_renderer("templates/huelsenbeck_reconstruction_set.pt").implementation().macros
-    huelsenbeck_reconstruction_sets = DBSession.query(HuelsenbeckReconstructionSet).\
-            join(HuelsenbeckReconstructionSet.simulation_set, aliased=True).\
-            options(subqueryload(HuelsenbeckReconstructionSet.simulation_set)).\
+    huelsenbeck_reconstruction_sets = DBSession.query(HuelsenbeckTreeEstimateSet).\
+            join(HuelsenbeckTreeEstimateSet.simulation_set, aliased=True).\
+            options(subqueryload(HuelsenbeckTreeEstimateSet.simulation_set)).\
             filter(and_(*filter_group)).all()
     #huelsenbeck_reconstruction_sets.sort(key=lambda huelsenbeck_reconstruction_set: sum(huelsenbeck_reconstruction.reconstruction.success for huelsenbeck_reconstruction in huelsenbeck_reconstruction_set.huelsenbeck_reconstructions),reverse=True)
     return({'methods': methods, 'distance_formulas': distance_formulas, 'k': ",".join(k), 'm': m, 'genes': genes, 'huelsenbeck_reconstruction_sets': huelsenbeck_reconstruction_sets, 'results': [], 'reconstruction_set_macro': reconstruction_set_macro, 'np': np})
