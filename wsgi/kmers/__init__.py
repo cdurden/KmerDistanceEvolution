@@ -39,7 +39,7 @@ def nonesorter(a):
 def huelsenbeck_svg(request):
     print("running huelsenbeck_svg view code")
     import numpy as np
-    import tkinter
+    #import tkinter
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
