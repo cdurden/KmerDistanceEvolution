@@ -4,10 +4,10 @@
 
     <h2>Huelsenbeck diagrams</h2>
     <tal:block1 tal:define="nr_results 25">
-    <p>Found ${python: len(huelsenbeck_reconstruction_sets)} results. The first ${nr_results} results are displayed.</p> 
-        <metal:block2 tal:repeat="huelsenbeck_reconstruction_set huelsenbeck_reconstruction_sets">
-        <metal:huelsenbeck_reconstruction_set use-macro="load: huelsenbeck_reconstruction_set.pt">
-        </metal:huelsenbeck_reconstruction_set>
+    <p>Found ${python: len(huelsenbeck_tree_estimate_sets)} results. The first ${nr_results} results are displayed.</p> 
+        <metal:block2 tal:repeat="huelsenbeck_tree_estimate_set huelsenbeck_tree_estimate_sets">
+        <metal:huelsenbeck_tree_estimate_set use-macro="load: huelsenbeck_tree_estimate_set.pt">
+        </metal:huelsenbeck_tree_estimate_set>
         </metal:block2>
     </tal:block1>
   </body>

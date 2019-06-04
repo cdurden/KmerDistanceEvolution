@@ -1,0 +1,60 @@
+<html>
+  <body>
+      <metal:huelsenbeck_tree_estimate_set define-macro="huelsenbeck_tree_estimate_set">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>INDELible (indel) model:</td>
+                                <td>${huelsenbeck_tree_estimate_set.simulation_set.indelible_model}</td>
+                            </tr>
+                            <tr>
+                                <td>theta:</td>
+                                <td>${huelsenbeck_tree_estimate_set.simulation_set.theta}</td>
+                            </tr>
+                            <tr>
+                                <td>Number of genes:</td>
+                                <td>${huelsenbeck_tree_estimate_set.simulation_set.genes}</td>
+                            </tr>
+                            <tr>
+                                <td>Sequence length (m):</td>
+                                <td>${huelsenbeck_tree_estimate_set.simulation_set.m}</td>
+                            </tr>
+                            <tr>
+                                <td>Number of taxa (n):</td>
+                                <td>${huelsenbeck_tree_estimate_set.simulation_set.n}</td>
+                            </tr>
+                            <tr>
+                                <td>Tree estimation method:</td>
+                                <td>${huelsenbeck_tree_estimate_set.method}</td>
+                            </tr>
+                            <tr>
+                                <td>KVD method:</td>
+                                <td>${huelsenbeck_tree_estimate_set.distance_formula}</td>
+                            </tr>
+                            <tr>
+                                <td>Alignment method:</td>
+                                <td>${huelsenbeck_tree_estimate_set.alignment_method}</td>
+                            </tr>
+                            <tr>
+                                <td>k values:</td>
+                                <td>${python: huelsenbeck_tree_estimate_set.k}</td>
+                            </tr>
+                            <tr>
+                                <td>Average time for tree estimation:</td>
+                                <td>${python: 1 or np.mean([huel_tree_estimate.tree_estimate.dt for huel_tree_estimate in huelsenbeck_tree_estimate_set.huelsenbeck_tree_estimates])} s
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <object data="${structure: request.route_url('huelsenbeck_svg', tree_estimate_set_id=huelsenbeck_tree_estimate_set.id)}" type="image/svg+xml">
+                        </object>
+                        <!--                        <img src="${structure: request.route_url('huelsenbeck_svg', tree_estimate_set_id=huelsenbeck_tree_estimate_set.id)}"/>-->
+                    </td>
+                </tr>
+            </table>
+      </metal:huelsenbeck_tree_estimate_set>
+  </body>
+</html>
