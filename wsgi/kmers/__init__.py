@@ -20,7 +20,7 @@ DBSession = scoped_session(
                     sessionmaker(extension=ZopeTransactionExtension()))
 #Base = declarative_base()
 
-from KmerDistanceEvolution.DB import *
+from KmerDistanceEvolution.Data import *
 
 def do_connect(dbapi_connection, connection_record):
     # disable pysqlite's emitting of the BEGIN statement entirely.
